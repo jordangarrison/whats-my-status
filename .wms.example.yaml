@@ -1,0 +1,7 @@
+workspaces:
+- org: myworkspace
+  type: slack
+  token: xoxs-token-here
+- org: mycompany
+  type: slack
+  token: xoxs-token-here
