@@ -1,0 +1,63 @@
+version: '3'
+vars:
+  PACKAGE_NAME: 'wms'
+  VERSION: '0.1.0'
+
+tasks:
+  # Test and Build the package
+  build:
+    cmds:
+      - task: mod
+      - task: test
+      - task: build_all
+
+  # Build all architectures
+  build_all:
+    deps:
+      - task: build_linux_amd64
+      - task: build_linux_arm64
+      - task: build_linux_arm
+      - task: build_darwin_amd64
+      - task: build_windows_amd64
+
+  # Architecture specific build tasks
+  build_linux_amd64:
+    cmds:
+      - env GOOS=linux GOARCH=amd64 go build -v -o build/{{.PACKAGE_NAME}}-linux-amd64-{{.VERSION}}
+
+  build_linux_arm:
+    cmds:
+      - env GOOS=linux GOARCH=arm go build -v -o build/{{.PACKAGE_NAME}}-linux-arm-{{.VERSION}}
+
+  build_linux_arm64:
+    cmds:
+      - env GOOS=linux GOARCH=arm64 go build -v -o build/{{.PACKAGE_NAME}}-linux-arm64-{{.VERSION}}
+
+  build_darwin_amd64:
+    cmds:
+      - env GOOS=darwin GOARCH=amd64 go build -v -o build/{{.PACKAGE_NAME}}-darwin-amd64-{{.VERSION}}
+
+  build_windows_amd64:
+    cmds:
+      - env GOOS=windows GOARCH=amd64 go build -v -o build/{{.PACKAGE_NAME}}-windows-amd64-{{.VERSION}}.exe
+
+  # Clean the build directory
+  clean:
+    cmds:
+      - rm -rf build
+
+  # Clean and build the package
+  clean_build:
+    deps:
+      - clean
+    cmds:
+      - task: build
+
+  # Validation tasks
+  mod:
+    cmds:
+      - go mod tidy
+  test:
+    cmds:
+      - go vet
+      - go test -count=1 -v ./...
