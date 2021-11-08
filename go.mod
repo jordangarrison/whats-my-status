@@ -3,6 +3,7 @@ module github.com/jordangarrison/whats-my-status
 go 1.17
 
 require (
+	github.com/hako/durafmt v0.0.0-20210608085754-5c1018a4e16b
 	github.com/slack-go/slack v0.9.5
 	github.com/spf13/cobra v1.2.1
 	github.com/spf13/viper v1.9.0

@@ -1,17 +1,17 @@
 package slack
 
 import (
-	cfg "github.com/jordangarrison/whats-my-status/config"
+	util "github.com/jordangarrison/whats-my-status/util"
 	"github.com/slack-go/slack"
 )
 
 type SlackClient struct {
 	client    *slack.Client
-	status    cfg.Status
-	workspace cfg.Workspace
+	status    util.Status
+	workspace util.Workspace
 }
 
-func GetClient(status cfg.Status, workspace cfg.Workspace) SlackClient {
+func GetClient(status util.Status, workspace util.Workspace) SlackClient {
 	slackClient := SlackClient{
 		client:    nil,
 		status:    status,
@@ -22,7 +22,7 @@ func GetClient(status cfg.Status, workspace cfg.Workspace) SlackClient {
 }
 
 func (slackClient *SlackClient) SetStatus() error {
-	err := slackClient.client.SetUserCustomStatus(slackClient.status.StatusMessage, slackClient.status.Emoji, 1234567890)
+	err := slackClient.client.SetUserCustomStatus(slackClient.status.StatusMessage, slackClient.status.Emoji, slackClient.status.Epoch)
 	if err != nil {
 		return err
 	}

@@ -1,4 +1,4 @@
-package config
+package utility
 
 type Config struct {
 	// Status
@@ -31,4 +31,6 @@ type Status struct {
 	Emoji string `json:"emoji"`
 	// Time to set
 	Time string `json:"time"`
+	// Epoch to set
+	Epoch int64 `json:"epoch"`
 }

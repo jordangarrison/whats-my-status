@@ -19,14 +19,14 @@ import (
 	"fmt"
 	"strings"
 
-	cfg "github.com/jordangarrison/whats-my-status/config"
 	"github.com/jordangarrison/whats-my-status/status"
+	util "github.com/jordangarrison/whats-my-status/util"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
 
 var (
-	config cfg.Config
+	config util.Config
 	// statusCmd represents the status command
 	statusCmd = &cobra.Command{
 		Use:   "status",
@@ -39,11 +39,18 @@ This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 		Run: func(cmd *cobra.Command, args []string) {
 			viper.Set("status.StatusMessage", strings.Join(args, " "))
+			if viper.GetString("status.time") != "" {
+				epoch, err := util.GetEpochTime(viper.GetString("status.time"))
+				if err != nil {
+					panic(err)
+				}
+				viper.Set("status.epoch", epoch)
+			}
 			err := viper.Unmarshal(&config)
 			if err != nil {
 				panic(err)
 			}
-			fmt.Printf("Status Message: %+v\nEmoji: %+v\nTime: %+v", config.Status.StatusMessage, config.Status.Emoji, config.Status.Time)
+			fmt.Printf("Status Message: %+v\nEmoji: %+v\nTime: %+v", config.Status.StatusMessage, config.Status.Emoji, config.Status.Epoch)
 			// fmt.Printf("%+v\n", cmd)
 			err = status.SetStatus(config)
 			if err != nil {

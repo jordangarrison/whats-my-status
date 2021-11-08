@@ -1,12 +1,12 @@
 package status
 
 import (
-	cfg "github.com/jordangarrison/whats-my-status/config"
 	slack "github.com/jordangarrison/whats-my-status/slack"
+	util "github.com/jordangarrison/whats-my-status/util"
 )
 
 // SetStatus sets the status of the service
-func SetStatus(config cfg.Config) error {
+func SetStatus(config util.Config) error {
 	for _, workspace := range config.Workspaces {
 		switch workspace.Type {
 		case "slack":
