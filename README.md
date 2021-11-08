@@ -9,7 +9,7 @@ To install, download the binary for your platform from the [latest release](http
 You can of course install from the go command, however, currently this creates the binary as `whats-my-status` instead of `wms`.
 
 ```sh
-go install github.com/jordangarrison/whatsmystatus@latest
+go install github.com/jordangarrison/whats-my-status@latest
 ```
 
 ## Setup
