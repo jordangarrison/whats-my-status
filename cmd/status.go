@@ -17,6 +17,7 @@ package cmd
 
 import (
 	"fmt"
+	"os"
 	"strings"
 
 	"github.com/jordangarrison/whats-my-status/status"
@@ -38,20 +39,42 @@ Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 		Run: func(cmd *cobra.Command, args []string) {
-			viper.Set("status.StatusMessage", strings.Join(args, " "))
-			if viper.GetString("status.time") != "" {
-				epoch, err := util.GetEpochTime(viper.GetString("status.time"))
-				if err != nil {
-					panic(err)
-				}
-				viper.Set("status.epoch", epoch)
+			if len(args) == 0 {
+				fmt.Println("No status provided")
+				os.Exit(1)
 			}
+
+			// Get the status
+			viper.Set("status.status", strings.Join(args, " "))
+
+			// Create config struct
 			err := viper.Unmarshal(&config)
 			if err != nil {
 				panic(err)
 			}
+
+			// Check aliases
+			for _, alias := range config.Aliases {
+				if alias.Name == args[0] {
+					config.Status.StatusMessage = alias.Status.StatusMessage
+					config.Status.Time = alias.Status.Time
+					config.Status.Emoji = alias.Status.Emoji
+					break
+				}
+			}
+
+			// Get the epoch time
+			if config.Status.Time != "" {
+				epoch, err := util.GetEpochTime(config.Status.Time)
+				if err != nil {
+					panic(err)
+				}
+				config.Status.Epoch = epoch
+			}
+
 			fmt.Printf("Status Message: %+v\nEmoji: %+v\nTime: %+v", config.Status.StatusMessage, config.Status.Emoji, config.Status.Epoch)
-			// fmt.Printf("%+v\n", cmd)
+
+			// Set status
 			err = status.SetStatus(config)
 			if err != nil {
 				panic(err)

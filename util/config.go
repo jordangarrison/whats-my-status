@@ -26,7 +26,7 @@ type Alias struct {
 
 type Status struct {
 	// Status to set
-	StatusMessage string `json:"status"`
+	StatusMessage string `json:"message"`
 	// Emoji to set
 	Emoji string `json:"emoji"`
 	// Time to set

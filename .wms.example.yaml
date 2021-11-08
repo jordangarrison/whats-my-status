@@ -1,7 +1,13 @@
 workspaces:
-- org: myworkspace
+- org: my-workspace
   type: slack
   token: xoxs-token-here
-- org: mycompany
+- org: my-company
   type: slack
   token: xoxs-token-here
+aliases:
+  - name: gm
+    status:
+      status: Good Morning!
+      emoji: ":coffee:"
+      time: 30m

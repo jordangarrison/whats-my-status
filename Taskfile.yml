@@ -53,6 +53,22 @@ tasks:
     cmds:
       - task: build
 
+  # Install scripts
+  local_install:
+    deps:
+      - clean_build
+    cmds:
+      - mkdir -p ~/bin
+      - |
+        OS=$(uname)
+        MACHINE_TYPE=`uname -m`
+        if [[ ${MACHINE_TYPE} == 'x86_64' ]]; then
+          if [[ ${OS} == 'Linux' ]]; then
+            cp build/{{.PACKAGE_NAME}}-linux-amd64-{{.VERSION}} ~/bin/{{.PACKAGE_NAME}}
+          fi
+        fi
+
+
   # Validation tasks
   mod:
     cmds:
