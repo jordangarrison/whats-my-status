@@ -1,6 +1,8 @@
 package status
 
 import (
+	"errors"
+
 	slack "github.com/jordangarrison/whats-my-status/slack"
 	util "github.com/jordangarrison/whats-my-status/util"
 )
@@ -16,7 +18,7 @@ func SetStatus(config util.Config) error {
 				return err
 			}
 		default:
-			panic("Unknown service: " + workspace.Type)
+			return errors.New("Unknown service: " + workspace.Type)
 		}
 	}
 	return nil
