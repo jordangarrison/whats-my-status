@@ -15,7 +15,7 @@ limitations under the License.
 */
 package main
 
-import "github.com/jordangarrison/whats-my-status/cmd"
+import "github.com/jordangarrison/whats-my-status/wms/cmd"
 
 func main() {
 	cmd.Execute()

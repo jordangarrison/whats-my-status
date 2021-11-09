@@ -1,3 +1,8 @@
+# v0.2.1
+
+- Updated location of the cli for easy installation with `go install github.com/jordangarrison/whats-my-status/wms@latest`
+- Updated `Taskfile.yml` to use the new directory for building the application
+
 # v0.2.0
 
 Added the ability to set the status of GitHub users. You need the following for this to work correctly:
