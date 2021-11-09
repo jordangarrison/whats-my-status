@@ -45,13 +45,21 @@ to quickly create a Cobra application.`,
 			}
 
 			// Get the status
-			viper.Set("status.status", strings.Join(args, " "))
+			viper.Set("status.StatusMessage", strings.Join(args, " "))
 
 			// Create config struct
 			err := viper.Unmarshal(&config)
 			if err != nil {
 				panic(err)
 			}
+
+			// Create clear status alias
+			clearStatusAlias := util.Alias{
+				Name:   "clear",
+				Status: util.Status{},
+			}
+			// Add clear status alias to config
+			config.Aliases = append(config.Aliases, clearStatusAlias)
 
 			// Check aliases
 			for _, alias := range config.Aliases {
@@ -63,16 +71,21 @@ to quickly create a Cobra application.`,
 				}
 			}
 
-			// Get the epoch time
+			// Get the time
 			if config.Status.Time != "" {
 				epoch, err := util.GetEpochTime(config.Status.Time)
 				if err != nil {
 					panic(err)
 				}
 				config.Status.Epoch = epoch
+				iso8601, err := util.GetISO8601Time(config.Status.Time)
+				if err != nil {
+					panic(err)
+				}
+				config.Status.ISO8601 = iso8601
 			}
 
-			fmt.Printf("Status Message: %+v\nEmoji: %+v\nTime: %+v", config.Status.StatusMessage, config.Status.Emoji, config.Status.Epoch)
+			fmt.Printf("Status Message: %+v\nEmoji: %+v\nTime: %+v\n", config.Status.StatusMessage, config.Status.Emoji, config.Status.Epoch)
 
 			// Set status
 			err = status.SetStatus(config)

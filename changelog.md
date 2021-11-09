@@ -1,3 +1,20 @@
+# v0.2.0
+
+Added the ability to set the status of GitHub users. You need the following for this to work correctly:
+- Your GitHub username
+- An access token with `user` scope
+- An entry in the config
+
+Also updated the documentation to reflect the new GitHub features.
+## Configuration update
+
+```yaml
+workspaces:
+  - name: [your-gihtub-username]
+    type: github
+    token: [ghp_your-generated-user-scope-access-token]
+```
+
  # v0.1.0
 
  This is the first release of the project. We have basic functionality in the status command.

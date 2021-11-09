@@ -11,14 +11,12 @@ type SlackClient struct {
 	workspace util.Workspace
 }
 
-func GetClient(status util.Status, workspace util.Workspace) SlackClient {
-	slackClient := SlackClient{
-		client:    nil,
+func GetClient(status util.Status, workspace util.Workspace) *SlackClient {
+	return &SlackClient{
+		client:    slack.New(workspace.Token),
 		status:    status,
 		workspace: workspace,
 	}
-	slackClient.client = slack.New(slackClient.workspace.Token)
-	return slackClient
 }
 
 func (slackClient *SlackClient) SetStatus() error {
