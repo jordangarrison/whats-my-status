@@ -84,9 +84,10 @@ tasks:
       - clean_build
     cmds:
       - |
-        gh release create {{.VERSION}} \
-          --title "Release {{.VERSION}}" \
+        gh release create v{{.VERSION}} \
+          --title "Release v{{.VERSION}}" \
           --notes-file changelog.md \
+          --draft \
           './build/{{.PACKAGE_NAME}}-linux-amd64-{{.VERSION}}#Linux Amd64' \
           './build/{{.PACKAGE_NAME}}-linux-arm-{{.VERSION}}#Linux Arm' \
           './build/{{.PACKAGE_NAME}}-linux-arm64-{{.VERSION}}#Linux Arm64' \
