@@ -6,10 +6,10 @@ What's my status? is a command line utility that allows you to set your status o
 
 To install, download the binary for your platform from the [latest release](https://github.com/jordangarrison/whats-my-status/releases) and place it in your `$PATH`.
 
-You can of course install from the go command, however, currently this creates the binary as `whats-my-status` instead of `wms`.
+You can install from the go command:
 
 ```sh
-go install github.com/jordangarrison/whats-my-status@latest
+go install github.com/jordangarrison/whats-my-status/wms@latest
 ```
 
 ## Setup
