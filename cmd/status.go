@@ -45,7 +45,7 @@ to quickly create a Cobra application.`,
 			}
 
 			// Get the status
-			viper.Set("status.status", strings.Join(args, " "))
+			viper.Set("status.StatusMessage", strings.Join(args, " "))
 
 			// Create config struct
 			err := viper.Unmarshal(&config)

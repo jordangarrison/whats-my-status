@@ -73,10 +73,9 @@ func (gitHubClient *GitHubClient) SetStatus() error {
 	if err != nil {
 		return err
 	}
-	b, err := httputil.DumpResponse(resp, true)
+	_, err = httputil.DumpResponse(resp, true)
 	if err != nil {
 		return err
 	}
-	fmt.Println(string(b))
 	return nil
 }
