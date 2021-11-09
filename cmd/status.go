@@ -53,6 +53,14 @@ to quickly create a Cobra application.`,
 				panic(err)
 			}
 
+			// Create clear status alias
+			clearStatusAlias := util.Alias{
+				Name:   "clear",
+				Status: util.Status{},
+			}
+			// Add clear status alias to config
+			config.Aliases = append(config.Aliases, clearStatusAlias)
+
 			// Check aliases
 			for _, alias := range config.Aliases {
 				if alias.Name == args[0] {
@@ -72,7 +80,7 @@ to quickly create a Cobra application.`,
 				config.Status.Epoch = epoch
 			}
 
-			fmt.Printf("Status Message: %+v\nEmoji: %+v\nTime: %+v", config.Status.StatusMessage, config.Status.Emoji, config.Status.Epoch)
+			fmt.Printf("Status Message: %+v\nEmoji: %+v\nTime: %+v\n", config.Status.StatusMessage, config.Status.Emoji, config.Status.Epoch)
 
 			// Set status
 			err = status.SetStatus(config)
