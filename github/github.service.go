@@ -54,10 +54,11 @@ func (gitHubClient *GitHubClient) SetStatus() error {
 		{
 			"status": {
 				"emoji": "%s",
-				"message": "%s"
+				"message": "%s",
+				"expiresAt": "%s"
 			}
 		}
-	`, gitHubClient.status.Emoji, gitHubClient.status.StatusMessage)
+	`, gitHubClient.status.Emoji, gitHubClient.status.StatusMessage, gitHubClient.status.ISO8601)
 
 	gqlMarshalled, err := json.Marshal(GraphQLRequest{
 		Query:     mutation,
@@ -72,9 +73,10 @@ func (gitHubClient *GitHubClient) SetStatus() error {
 	if err != nil {
 		return err
 	}
-	_, err = httputil.DumpResponse(resp, true)
+	b, err := httputil.DumpResponse(resp, true)
 	if err != nil {
 		return err
 	}
+	fmt.Println(string(b))
 	return nil
 }

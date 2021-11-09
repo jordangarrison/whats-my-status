@@ -71,13 +71,18 @@ to quickly create a Cobra application.`,
 				}
 			}
 
-			// Get the epoch time
+			// Get the time
 			if config.Status.Time != "" {
 				epoch, err := util.GetEpochTime(config.Status.Time)
 				if err != nil {
 					panic(err)
 				}
 				config.Status.Epoch = epoch
+				iso8601, err := util.GetISO8601Time(config.Status.Time)
+				if err != nil {
+					panic(err)
+				}
+				config.Status.ISO8601 = iso8601
 			}
 
 			fmt.Printf("Status Message: %+v\nEmoji: %+v\nTime: %+v\n", config.Status.StatusMessage, config.Status.Emoji, config.Status.Epoch)

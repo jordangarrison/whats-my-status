@@ -33,4 +33,6 @@ type Status struct {
 	Time string `json:"time"`
 	// Epoch to set
 	Epoch int64 `json:"epoch"`
+	// ISO8601 to set
+	ISO8601 string `json:"iso8601"`
 }

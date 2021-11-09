@@ -14,3 +14,12 @@ func GetEpochTime(hrTime string) (int64, error) {
 	seconds := int64(duration.Duration().Seconds())
 	return time.Now().Unix() + seconds, nil
 }
+
+func GetISO8601Time(hrTime string) (string, error) {
+	duration, err := durafmt.ParseString(hrTime)
+	if err != nil {
+		return "", err
+	}
+	seconds := int64(duration.Duration().Seconds())
+	return time.Now().Add(time.Duration(seconds) * time.Second).Format(time.RFC3339), nil
+}
