@@ -2,12 +2,10 @@ package main
 
 import (
 	"fmt"
-	"image/color"
 	"os"
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/app"
-	"fyne.io/fyne/v2/canvas"
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/layout"
 	"fyne.io/fyne/v2/widget"
@@ -35,16 +33,12 @@ func main() {
 	window.CenterOnScreen()
 	window.Resize(fyne.NewSize(800, 600))
 
-	// Create the Input Fields
-	statusMessageLabel := canvas.NewText("What's My Status?", color.White)
-	statusMessageInput := canvas.NewText("Status", color.White)
-	emojiLabel := canvas.NewText("What's my Emoji?", color.White)
-	emojiInput := canvas.NewText("Emoji", color.White)
 	// Top Container
-	formContainer := container.New(layout.NewFormLayout(), statusMessageLabel, statusMessageInput, emojiLabel, emojiInput)
-	topContainer := container.New(layout.NewHBoxLayout(), layout.NewSpacer(), formContainer, layout.NewSpacer())
+	statusText := widget.NewEntry()
+	statusText.SetPlaceHolder("Enter your status message here...")
+	topContainer := container.New(layout.NewCenterLayout(), statusText)
 
-	// Set status button
+	// Set status and clear status buttons
 	setStatusButton := widget.NewButton("Set Status", setStatus)
 	clearStatusButton := widget.NewButton("Clear Status", clearStatus)
 
@@ -89,6 +83,7 @@ func init() {
 		// Search config in home directory with name ".whats-my-status" (without extension).
 		viper.AddConfigPath(".")
 		viper.AddConfigPath(home)
+		viper.AddConfigPath(fmt.Sprintf("%s/.config", home))
 		viper.SetConfigType("yaml")
 		viper.SetConfigName(".wms.yaml")
 	}
