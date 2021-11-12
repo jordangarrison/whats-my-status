@@ -53,13 +53,8 @@ to quickly create a Cobra application.`,
 				panic(err)
 			}
 
-			// Create clear status alias
-			clearStatusAlias := util.Alias{
-				Name:   "clear",
-				Status: util.Status{},
-			}
 			// Add clear status alias to config
-			config.Aliases = append(config.Aliases, clearStatusAlias)
+			config.Aliases = config.GetStatusAliases()
 
 			// Check aliases
 			for _, alias := range config.Aliases {

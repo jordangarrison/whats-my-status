@@ -1,2 +1,6 @@
 .wms.yaml
 build
+
+fyne-cross/
+
+*.syso

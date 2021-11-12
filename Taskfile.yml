@@ -46,10 +46,31 @@ tasks:
     cmds:
       - env GOOS=windows GOARCH=amd64 go build -v -o ../build/{{.PACKAGE_NAME}}-windows-amd64-{{.VERSION}}.exe
 
+  # build the guis
+  build_gui:
+    deps:
+      - task: build_gui_linux
+      - task: build_gui_darwin
+      - task: build_gui_windows
+
+  build_gui_linux:
+    cmds:
+      - fyne-cross linux --pull
+  
+  build_gui_darwin:
+    cmds:
+      - fyne-cross darwin --pull
+  
+  build_gui_windows:
+    cmds:
+      - fyne-cross windows --pull
+
   # Clean the build directory
   clean:
     cmds:
       - rm -rf build
+      - rm -rf fyne-cross
+      - rm whats-my-status.exe.syso
 
   # Clean and build the package
   clean_build:
