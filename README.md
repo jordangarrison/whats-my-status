@@ -4,7 +4,37 @@ What's my status? is a command line utility that allows you to set your status o
 
 ## Installation
 
-To install, download the binary for your platform from the [latest release](https://github.com/jordangarrison/whats-my-status/releases) and place it in your `$PATH`.
+### GUI
+
+To install the GUI, download the binary for your platform from the [latest release](https://github.com/jordangarrison/whats-my-status/releases).
+
+#### MacOS
+
+Simply unzip the file and drag it into your Applications folder.
+
+#### Windows
+
+Simply unzip the file and drag it into your Start Menu.
+
+#### Linux
+
+To install run the following after downloading the tarball:
+
+```bash
+tar -Jvf whats-my-status-linux-*.xz
+cd whats-my-status-linux-*
+sudo make install
+```
+
+To uninstall run the following:
+
+```bash
+sudo make uninstall
+```
+
+### CLI
+
+To install the cli, download the binary for your platform from the [latest release](https://github.com/jordangarrison/whats-my-status/releases) and place it in your `$PATH`.
 
 You can install from the go command:
 

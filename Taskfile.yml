@@ -3,7 +3,7 @@ vars:
   PACKAGE_NAME: 'wms'
   APP_NAME: 'whats-my-status'
   APP_ID: 'com.github.jordangarrison.whats-my-status'
-  VERSION: '0.3.0'
+  VERSION: '0.3.1'
 
 tasks:
   # Test and Build the package
@@ -73,6 +73,7 @@ tasks:
   build_gui_darwin:
     cmds:
       - fyne-cross darwin --name={{.APP_NAME}}-{{.VERSION}} --app-version={{.VERSION}} --app-id={{.APP_ID}}
+      - task: zip_gui_darwin
 
   build_gui_ios:
     cmds:
@@ -81,6 +82,11 @@ tasks:
   build_gui_windows:
     cmds:
       - fyne-cross windows --pull --name={{.APP_NAME}}-{{.VERSION}}.exe --app-version={{.VERSION}} --app-id={{.APP_ID}}
+
+  zip_gui_darwin:
+    cmds:
+      - zip -r {{.APP_NAME}}-{{.VERSION}}.app.zip {{.APP_NAME}}-{{.VERSION}}.app
+    dir: ./fyne-cross/dist/darwin-amd64
 
   clean_gui:
     cmds:
@@ -152,4 +158,5 @@ tasks:
           './build/{{.PACKAGE_NAME}}-darwin-amd64-{{.VERSION}}#CLI MacOs Amd64' \
           './build/{{.PACKAGE_NAME}}-windows-amd64-{{.VERSION}}.exe#CLI Windows Amd64' \
           './fyne-cross/dist/linux-amd64/{{.APP_NAME}}-{{.VERSION}}.tar.xz#GUI Linux Amd64' \
+          './fyne-cross/dist/darwin-amd64/{{.APP_NAME}}-{{.VERSION}}.zip#GUI MacOS Amd64' \
           './fyne-cross/dist/windows-amd64/{{.APP_NAME}}-{{.VERSION}}.exe.zip#GUI Windows Amd64'

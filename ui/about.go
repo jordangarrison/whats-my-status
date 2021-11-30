@@ -11,7 +11,7 @@ import (
 	"fyne.io/fyne/v2/widget"
 )
 
-const version = "v0.3.0"
+const version = "v0.3.1"
 
 var releaseURL = &url.URL{
 	Scheme: "https",
