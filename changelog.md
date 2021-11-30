@@ -1,3 +1,7 @@
+# v0.3.1
+
+Documentation updates around GUI installation and fix MacOS app release upload script.
+
 # v0.3.0
 
 Gui feature added. We now have a gui application build with fyne. You can check out the installations in the releases tab.

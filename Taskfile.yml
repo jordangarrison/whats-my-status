@@ -54,7 +54,7 @@ tasks:
       - task: build_gui_linux
       # - task: build_gui_freebsd
       # - task: build_gui_android
-      # - task: build_gui_darwin
+      - task: build_gui_darwin
       # - task: build_gui_ios
       - task: build_gui_windows
 
