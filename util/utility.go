@@ -24,7 +24,7 @@ func GetISO8601Time(hrTime string) (string, error) {
 	return time.Now().Add(time.Duration(seconds) * time.Second).Format(time.RFC3339), nil
 }
 
-func ClearStatusAlias() Alias {
+func clearStatusAlias() Alias {
 	return Alias{
 		Name:   "clear",
 		Status: Status{},
@@ -33,7 +33,7 @@ func ClearStatusAlias() Alias {
 
 func (config Config) GetStatusAliases() []Alias {
 	var aliases []Alias
-	aliases = append(aliases, ClearStatusAlias())
+	aliases = append(aliases, clearStatusAlias())
 	aliases = append(aliases, config.Aliases...)
 	return aliases
 }

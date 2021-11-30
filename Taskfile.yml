@@ -1,7 +1,9 @@
 version: '3'
 vars:
   PACKAGE_NAME: 'wms'
-  VERSION: '0.2.1'
+  APP_NAME: 'whats-my-status'
+  APP_ID: 'com.github.jordangarrison.whats-my-status'
+  VERSION: '0.3.0'
 
 tasks:
   # Test and Build the package
@@ -48,29 +50,58 @@ tasks:
 
   # build the guis
   build_gui:
-    deps:
+    cmds:
       - task: build_gui_linux
-      - task: build_gui_darwin
+      # - task: build_gui_freebsd
+      # - task: build_gui_android
+      # - task: build_gui_darwin
+      # - task: build_gui_ios
       - task: build_gui_windows
 
   build_gui_linux:
     cmds:
-      - fyne-cross linux --pull
+      - fyne-cross linux --pull --name={{.APP_NAME}}-{{.VERSION}} --app-version={{.VERSION}} --release --app-id={{.APP_ID}}
+
+  build_gui_freebsd:
+    cmds:
+      - fyne-cross freebsd --pull --name={{.APP_NAME}}-{{.VERSION}} --app-version={{.VERSION}} --release --app-id={{.APP_ID}}
+
+  build_gui_android:
+    cmds:
+      - fyne-cross android --pull --name={{.APP_NAME}}-{{.VERSION}} --app-version={{.VERSION}} --release --app-id={{.APP_ID}}
   
   build_gui_darwin:
     cmds:
-      - fyne-cross darwin --pull
+      - fyne-cross darwin --name={{.APP_NAME}}-{{.VERSION}} --app-version={{.VERSION}} --app-id={{.APP_ID}}
+
+  build_gui_ios:
+    cmds:
+      - fyne-cross ios --pull --name={{.APP_NAME}}-{{.VERSION}} --app-version={{.VERSION}} --release --app-id={{.APP_ID}}
   
   build_gui_windows:
     cmds:
-      - fyne-cross windows --pull
+      - fyne-cross windows --pull --name={{.APP_NAME}}-{{.VERSION}}.exe --app-version={{.VERSION}} --app-id={{.APP_ID}}
+
+  clean_gui:
+    cmds:
+      - rm -rf fyne-cross
+      - rm -rf whats-my-status.exe.syso
 
   # Clean the build directory
-  clean:
+  clean_cli:
     cmds:
       - rm -rf build
-      - rm -rf fyne-cross
-      - rm whats-my-status.exe.syso
+
+  clean:
+    deps:
+      - task: clean_cli
+      - task: clean_gui
+
+  clean_build_gui:
+    deps:
+      - task: clean_gui
+    cmds:
+      - task: build_gui
 
   # Clean and build the package
   clean_build:
@@ -78,6 +109,7 @@ tasks:
       - clean
     cmds:
       - task: build
+      - task: build_gui
 
   # Install scripts
   local_install:
@@ -114,8 +146,10 @@ tasks:
           --title "Release v{{.VERSION}}" \
           --notes-file changelog.md \
           --draft \
-          './build/{{.PACKAGE_NAME}}-linux-amd64-{{.VERSION}}#Linux Amd64' \
-          './build/{{.PACKAGE_NAME}}-linux-arm-{{.VERSION}}#Linux Arm' \
-          './build/{{.PACKAGE_NAME}}-linux-arm64-{{.VERSION}}#Linux Arm64' \
-          './build/{{.PACKAGE_NAME}}-darwin-amd64-{{.VERSION}}#Darwin Amd64' \
-          './build/{{.PACKAGE_NAME}}-windows-amd64-{{.VERSION}}.exe#Windows Amd64'
+          './build/{{.PACKAGE_NAME}}-linux-amd64-{{.VERSION}}#CLI Linux Amd64' \
+          './build/{{.PACKAGE_NAME}}-linux-arm-{{.VERSION}}#CLI Linux Arm' \
+          './build/{{.PACKAGE_NAME}}-linux-arm64-{{.VERSION}}#CLI Linux Arm64' \
+          './build/{{.PACKAGE_NAME}}-darwin-amd64-{{.VERSION}}#CLI MacOs Amd64' \
+          './build/{{.PACKAGE_NAME}}-windows-amd64-{{.VERSION}}.exe#CLI Windows Amd64' \
+          './fyne-cross/dist/linux-amd64/{{.APP_NAME}}-{{.VERSION}}.tar.xz#GUI Linux Amd64' \
+          './fyne-cross/dist/windows-amd64/{{.APP_NAME}}-{{.VERSION}}.exe.zip#GUI Windows Amd64'

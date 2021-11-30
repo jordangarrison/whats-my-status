@@ -6,10 +6,7 @@ import (
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/app"
-	"fyne.io/fyne/v2/container"
-	"fyne.io/fyne/v2/layout"
-	"fyne.io/fyne/v2/widget"
-	"github.com/jordangarrison/whats-my-status/status"
+	ui "github.com/jordangarrison/whats-my-status/ui"
 	util "github.com/jordangarrison/whats-my-status/util"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -26,49 +23,20 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+	config.Aliases = config.GetStatusAliases()
 
 	// Set up the Application
-	wms := app.New()
+	wms := app.NewWithID("io.github.jordangarrison.whats-my-status")
 	window := wms.NewWindow("What's My Status?")
 	window.CenterOnScreen()
 	window.Resize(fyne.NewSize(800, 600))
 
-	// Top Container
-	statusText := widget.NewEntry()
-	statusText.SetPlaceHolder("Enter your status message here...")
-	topContainer := container.New(layout.NewCenterLayout(), statusText)
-
-	// Set status and clear status buttons
-	setStatusButton := widget.NewButton("Set Status", setStatus)
-	clearStatusButton := widget.NewButton("Clear Status", clearStatus)
-
-	// Bottom Container
-	bottomContainer := container.New(layout.NewHBoxLayout(), layout.NewSpacer(), setStatusButton, clearStatusButton, layout.NewSpacer())
-	window.SetContent(container.New(layout.NewVBoxLayout(), topContainer, layout.NewSpacer(), bottomContainer))
+	// Set up the window
+	window.SetContent(ui.Create(wms, window, config))
+	window.SetMaster()
 
 	// Run the Application
 	window.ShowAndRun()
-}
-
-func setStatus() {
-	fmt.Println("Setting status")
-}
-
-func clearStatus() {
-	fmt.Println("Clearing status")
-	// Find status alias
-	for _, alias := range config.Aliases {
-		if alias.Name == "clear" {
-			config.Status = alias.Status
-			break
-		}
-	}
-
-	// Set status
-	err := status.SetStatus(config)
-	if err != nil {
-		fmt.Println(err)
-	}
 }
 
 func init() {

@@ -1,3 +1,8 @@
+# v0.3.0
+
+Gui feature added. We now have a gui application build with fyne. You can check out the installations in the releases tab.
+- Added alias shortcuts to the gui and cli
+
 # v0.2.1
 
 - Updated location of the cli for easy installation with `go install github.com/jordangarrison/whats-my-status/wms@latest`
