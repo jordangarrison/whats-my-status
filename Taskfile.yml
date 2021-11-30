@@ -158,5 +158,5 @@ tasks:
           './build/{{.PACKAGE_NAME}}-darwin-amd64-{{.VERSION}}#CLI MacOs Amd64' \
           './build/{{.PACKAGE_NAME}}-windows-amd64-{{.VERSION}}.exe#CLI Windows Amd64' \
           './fyne-cross/dist/linux-amd64/{{.APP_NAME}}-{{.VERSION}}.tar.xz#GUI Linux Amd64' \
-          './fyne-cross/dist/darwin-amd64/{{.APP_NAME}}-{{.VERSION}}.zip#GUI MacOS Amd64' \
+          './fyne-cross/dist/darwin-amd64/{{.APP_NAME}}-{{.VERSION}}.app.zip#GUI MacOS Amd64' \
           './fyne-cross/dist/windows-amd64/{{.APP_NAME}}-{{.VERSION}}.exe.zip#GUI Windows Amd64'
