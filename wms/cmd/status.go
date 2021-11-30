@@ -31,13 +31,24 @@ var (
 	// statusCmd represents the status command
 	statusCmd = &cobra.Command{
 		Use:   "status",
-		Short: "A brief description of your command",
-		Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
+		Short: "Set your status",
+		Long: `You can set your status using this subcommand. Examples:
 
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	$ wms status -e ":smile:" "I'm happy!"
+	$ wms status -e :car: -t 30m Running an errand
+
+You can also use aliases which are predefined in your config file (see https://github.com/jordangarrison/whats-my-status for more info).
+
+Clear is a built in
+
+	$ wms status clear
+
+You can also define your aliases in your config file and run them of course.
+
+	$ wms status focus
+
+You can run wms without the status subcommand as well to perform a status update, status is the default command.
+		`,
 		Run: func(cmd *cobra.Command, args []string) {
 			if len(args) == 0 {
 				fmt.Println("No status provided")
@@ -49,17 +60,10 @@ to quickly create a Cobra application.`,
 
 			// Create config struct
 			err := viper.Unmarshal(&config)
-			if err != nil {
-				panic(err)
-			}
+			cobra.CheckErr(err)
 
-			// Create clear status alias
-			clearStatusAlias := util.Alias{
-				Name:   "clear",
-				Status: util.Status{},
-			}
 			// Add clear status alias to config
-			config.Aliases = append(config.Aliases, clearStatusAlias)
+			config.Aliases = config.GetStatusAliases()
 
 			// Check aliases
 			for _, alias := range config.Aliases {
@@ -74,14 +78,10 @@ to quickly create a Cobra application.`,
 			// Get the time
 			if config.Status.Time != "" {
 				epoch, err := util.GetEpochTime(config.Status.Time)
-				if err != nil {
-					panic(err)
-				}
+				cobra.CheckErr(err)
 				config.Status.Epoch = epoch
 				iso8601, err := util.GetISO8601Time(config.Status.Time)
-				if err != nil {
-					panic(err)
-				}
+				cobra.CheckErr(err)
 				config.Status.ISO8601 = iso8601
 			}
 
@@ -89,22 +89,13 @@ to quickly create a Cobra application.`,
 
 			// Set status
 			err = status.SetStatus(config)
-			if err != nil {
-				panic(err)
-			}
+			cobra.CheckErr(err)
 		},
 	}
 )
 
 func init() {
 	rootCmd.AddCommand(statusCmd)
-
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// statusCmd.PersistentFlags().String("foo", "", "A help for foo")
-
 	// Emoji flag
 	statusCmd.PersistentFlags().StringP("emoji", "e", "", "Emoji to use")
 	viper.BindPFlag("status.emoji", statusCmd.PersistentFlags().Lookup("emoji"))
@@ -112,10 +103,4 @@ func init() {
 	// Time flag
 	statusCmd.PersistentFlags().StringP("time", "t", "", "Time to use")
 	viper.BindPFlag("status.time", statusCmd.PersistentFlags().Lookup("time"))
-
-	// Status argument
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// statusCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
