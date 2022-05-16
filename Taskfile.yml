@@ -3,7 +3,7 @@ vars:
   PACKAGE_NAME: 'wms'
   APP_NAME: 'whats-my-status'
   APP_ID: 'com.github.jordangarrison.whats-my-status'
-  VERSION: '0.3.1'
+  VERSION: '0.3.2'
 
 tasks:
   # Test and Build the package
@@ -52,9 +52,9 @@ tasks:
   build_gui:
     cmds:
       - task: build_gui_linux
-      # - task: build_gui_freebsd
+      - task: build_gui_freebsd
       # - task: build_gui_android
-      - task: build_gui_darwin
+      # - task: build_gui_darwin
       # - task: build_gui_ios
       - task: build_gui_windows
 

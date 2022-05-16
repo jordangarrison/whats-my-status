@@ -1,3 +1,8 @@
+# v0.3.2
+
+- Minor updates around dev workflow to utilize nix
+- Now on Go 1.17.
+
 # v0.3.1
 
 Documentation updates around GUI installation and fix MacOS app release upload script.

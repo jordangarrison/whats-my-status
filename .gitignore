@@ -1,5 +1,6 @@
 .wms.yaml
 build
+.direnv
 
 fyne-cross/
 
