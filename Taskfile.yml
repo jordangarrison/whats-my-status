@@ -54,7 +54,7 @@ tasks:
       - task: build_gui_linux
       - task: build_gui_freebsd
       # - task: build_gui_android
-      # - task: build_gui_darwin
+      - task: build_gui_darwin
       # - task: build_gui_ios
       - task: build_gui_windows
 
@@ -70,10 +70,6 @@ tasks:
     cmds:
       - fyne-cross android --pull --name={{.APP_NAME}}-{{.VERSION}} --app-version={{.VERSION}} --release --app-id={{.APP_ID}}
   
-  build_gui_darwin:
-    cmds:
-      - fyne-cross darwin --name={{.APP_NAME}}-{{.VERSION}} --app-version={{.VERSION}} --app-id={{.APP_ID}}
-      - task: zip_gui_darwin
 
   build_gui_ios:
     cmds:
@@ -83,10 +79,27 @@ tasks:
     cmds:
       - fyne-cross windows --pull --name={{.APP_NAME}}-{{.VERSION}}.exe --app-version={{.VERSION}} --app-id={{.APP_ID}}
 
-  zip_gui_darwin:
+  build_gui_darwin:
     cmds:
-      - zip -r {{.APP_NAME}}-{{.VERSION}}.app.zip {{.APP_NAME}}-{{.VERSION}}.app
+      - task: build_gui_darwin_amd64
+      - task: build_gui_darwin_arm64
+  build_gui_darwin_amd64:
+    cmds:
+      - fyne-cross darwin --arch=amd64 --name={{.APP_NAME}}-intel-{{.VERSION}} --app-version={{.VERSION}} --app-id={{.APP_ID}}
+      - task: zip_gui_darwin_amd64
+  zip_gui_darwin_amd64:
+    cmds:
+      - zip -r {{.APP_NAME}}-intel-{{.VERSION}}.app.zip {{.APP_NAME}}-intel-{{.VERSION}}.app
     dir: ./fyne-cross/dist/darwin-amd64
+
+  build_gui_darwin_arm64:
+    cmds:
+      - fyne-cross darwin --arch=arm64 --name={{.APP_NAME}}-m1-{{.VERSION}} --app-version={{.VERSION}} --app-id={{.APP_ID}}
+      - task: zip_gui_darwin_arm64
+  zip_gui_darwin_arm64:
+    cmds:
+      - zip -r {{.APP_NAME}}-m1-{{.VERSION}}.app.zip {{.APP_NAME}}-m1-{{.VERSION}}.app
+    dir: ./fyne-cross/dist/darwin-arm64
 
   clean_gui:
     cmds:
