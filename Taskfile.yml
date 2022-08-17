@@ -122,6 +122,12 @@ tasks:
     cmds:
       - task: build_gui
 
+  clean_build_cli:
+    deps:
+      - task: clean_cli
+    cmds:
+      - task: build
+
   # Clean and build the package
   clean_build:
     deps:
@@ -133,15 +139,15 @@ tasks:
   # Install scripts
   local_install:
     deps:
-      - clean_build
+      - task: clean_build_cli
     cmds:
-      - mkdir -p ~/bin
+      - mkdir -p ~/.local/bin
       - |
         OS=$(uname)
         MACHINE_TYPE=`uname -m`
         if [[ ${MACHINE_TYPE} == 'x86_64' ]]; then
           if [[ ${OS} == 'Linux' ]]; then
-            cp build/{{.PACKAGE_NAME}}-linux-amd64-{{.VERSION}} ~/bin/{{.PACKAGE_NAME}}
+            cp build/{{.PACKAGE_NAME}}-linux-amd64-{{.VERSION}} ~/.local/bin/{{.PACKAGE_NAME}}
           fi
         fi
 
