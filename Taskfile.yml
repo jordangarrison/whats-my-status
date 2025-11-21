@@ -101,3 +101,9 @@ tasks:
           './build/{{.PACKAGE_NAME}}-linux-arm64-{{.VERSION}}#Linux Arm64' \
           './build/{{.PACKAGE_NAME}}-darwin-amd64-{{.VERSION}}#MacOS Amd64' \
           './build/{{.PACKAGE_NAME}}-windows-amd64-{{.VERSION}}.exe#Windows Amd64'
+
+  # Update Nix vendor hash
+  update-nix-hash:
+    cmds:
+      - sed -i 's/vendorHash = ".*";/vendorHash = "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=";/' flake.nix
+      - nix build 2>&1 | grep "got:" | cut -d':' -f2 | xargs | awk '{print "sed -i \"s|vendorHash = \\\"sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\\\";|vendorHash = \\\""$1"\\\";|\" flake.nix"}' | sh
